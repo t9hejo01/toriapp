@@ -1,8 +1,16 @@
+Simple ecommerce website using TypeScript, Next.js and MongoDB as database
+
+*Side notes for further development:
+  - Admin dashboard and application theme selection don't work
+  - The project can be dockerized with Docker
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies
+
+Run the development server:
 
 ```bash
 npm run dev
