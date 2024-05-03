@@ -73,7 +73,7 @@ export default function useCartService() {
             })
         },
         decrease: (item: OrderItem) => {
-            const exist = items.find((x) => x.slug !== item.slug)
+            const exist = items.find((x) => x.slug === item.slug)
             if (!exist) return
             const updatedCartItems =
                 exist.qty === 1
@@ -84,7 +84,7 @@ export default function useCartService() {
             cartStore.setState({
                 items: updatedCartItems,
                 itemsPrice,
-                shippingAddress,
+                shippingPrice,
                 taxPrice,
                 totalPrice,
             })
