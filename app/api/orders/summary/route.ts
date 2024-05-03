@@ -1,21 +1,22 @@
-import { auth } from "@/lib/auth";
-import dbConnect from "@/lib/dbConnect";
-import OrderModel from "@/lib/models/OrderModel";
-import ProductModel from "@/lib/models/ProductModel";
-import UserModel from "@/lib/models/UserModel";
+import { auth } from "@/lib/auth"
+import dbConnect from "@/lib/dbConnect"
+import OrderModel from "@/lib/models/OrderModel"
+import ProductModel from "@/lib/models/ProductModel"
+import UserModel from "@/lib/models/UserModel"
 
-export const GET = auth(async (req: any) => {
-    if (!req.auth || !req.auth.user?.isAdmin) {
+
+export const GET = auth(async (...request: any) => {
+    const [req, { params }] = request
+    if (!req.auth) {
         return Response.json(
-            { message: 'unauthorized' },
+            { message: 'unauthorized '},
             {
                 status: 401,
-            } 
+            }
         )
     }
-
     await dbConnect()
-    
+
     const ordersCount = await OrderModel.countDocuments()
     const productsCount = await ProductModel.countDocuments()
     const usersCount = await UserModel.countDocuments()
@@ -28,34 +29,33 @@ export const GET = auth(async (req: any) => {
             },
         },
     ])
-    const ordersPrice = 
-        ordersPriceGroup.length > 0 ? ordersPriceGroup[0].sales : 0
-    
+    const ordersPrice = ordersPriceGroup.length > 0 ? ordersPriceGroup[0].sales : 0
+
     const salesData = await OrderModel.aggregate([
         {
             $group: {
-                _id: { $dateToString: { format: '%Y-%m', date: '$createdAt' }},
+                _id: { $dateToString: { format: '%Y-%m', date: '$createdAt' } },
                 totalOrders: { $sum: 1 },
-                totalSales: { $sum: '$totalPrice' },
+                totalSales: { $sum: '$totalPrice'},
             },
         },
         { $sort: { _id: 1 }},
     ])
 
-    const productsData = await ProductModel.aggregate([
+    const productsData = await OrderModel.aggregate([
         {
             $group: {
                 _id: '$category',
                 totalProducts: { $sum: 1 },
             },
         },
-        { $sort: { _id: 1 }} ,
+        { $sort: { _id: 1 } },
     ])
 
-    const usersData = await UserModel.aggregate([
+    const usersData = await OrderModel.aggregate([
         {
             $group: {
-                _id: { $dateToString: { format: '%Y-%m', date: '$createdAt'}},
+                _id: { $dateToString: { form: '%Y-%m', date: '$createdAt '} },
                 totalUsers: { $sum: 1 },
             },
         },

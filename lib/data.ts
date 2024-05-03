@@ -15,7 +15,7 @@ const data = {
             isAdmin: false,
         },
     ],
-    products:[
+    products: [
         {
             name: 'Free Shirt',
             slug: 'free-shirt',
@@ -92,7 +92,7 @@ const data = {
             countInStock: 20,
             description: 'A popular pants',
         },
-    ]
+    ],
 }
 
 export default data

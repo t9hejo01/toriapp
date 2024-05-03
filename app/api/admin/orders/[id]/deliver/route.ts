@@ -8,7 +8,7 @@ export const PUT = auth(async (...args: any) => {
     if (!req.auth || !req.auth.user?.isAdmin) {
         return Response.json(
             { message: 'unauthorized' },
-            {
+            { 
                 status: 401,
             }
         )
@@ -18,27 +18,27 @@ export const PUT = auth(async (...args: any) => {
 
         const order = await OrderModel.findById(params.id)
         if (order) {
-            if (!order.isPaid) 
+            if (!order.isPaid)
                 return Response.json(
                     { message: 'Order is not paid' },
                     {
                         status: 400,
                     }
-                )
-                order.isDelivered = true
-                order.deliveredAt = Date.now()
-                const updatedOrder = await order.save()
-                return Response.json(updatedOrder)
-            } else {
-                return Response.json(
-                    { message: 'Order not found' },
-                    {
-                        status: 404,
-                    }
-                )
-            }
-        } catch (err: any) {
+            )
+            order.isDelivered = !order.isDelivered
+            order.deliveredAt = Date.now()
+            const updatedOrder = await order.save()
+            return Response.json(updatedOrder)
+        } else {
             return Response.json(
+                { message: 'Order is not paid' },
+                {
+                    status: 404,
+                }
+            )
+        }
+    } catch (err: any) {
+        return Response.json(
             { message: err.message },
             {
                 status: 500,

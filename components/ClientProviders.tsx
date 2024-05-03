@@ -2,7 +2,6 @@
 
 import { cartStore } from "@/lib/hooks/useCartStore"
 import useLayoutService from "@/lib/hooks/useLayout"
-import { init } from "next/dist/compiled/webpack/webpack"
 import { useEffect, useState } from "react"
 import toast, { Toaster } from "react-hot-toast"
 import { SWRConfig } from "swr"

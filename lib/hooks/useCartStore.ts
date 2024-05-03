@@ -2,8 +2,6 @@ import { create } from "zustand"
 import { round2 } from "../utils"
 import { OrderItem, ShippingAddress } from "../models/OrderModel"
 import { persist } from "zustand/middleware"
-import { clear } from "console"
-import { init } from "next/dist/compiled/webpack/webpack"
 
 
 type Cart = {
